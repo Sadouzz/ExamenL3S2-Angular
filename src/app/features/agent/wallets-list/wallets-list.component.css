@@ -1,0 +1,5 @@
+.font-bold { font-weight: 700; }
+    .btn-sm { padding: 0.4rem 0.75rem; font-size: 0.875rem; }
+    .py-4 { padding-top: 2rem; padding-bottom: 2rem; }
+    .text-center { text-align: center; }
+    .m-0 { margin: 0 !important; }

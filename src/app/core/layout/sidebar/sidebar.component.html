@@ -1,0 +1,38 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <i class="fas fa-wallet"></i>
+            <span>BadWallet</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        @if (!balanceStore.isAgent()) {
+            <div class="nav-section">CLIENT</div>
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a routerLink="/transfer" routerLinkActive="active" class="nav-link">
+                <i class="fas fa-exchange-alt"></i> Transfert
+            </a>
+            <a routerLink="/transactions" routerLinkActive="active" class="nav-link">
+                <i class="fas fa-history"></i> Historique
+            </a>
+            <a routerLink="/bills" routerLinkActive="active" class="nav-link">
+                <i class="fas fa-file-invoice-dollar"></i> Factures
+            </a>
+        }
+
+        @if (balanceStore.isAgent()) {
+            <div class="nav-section mt-4">AGENT</div>
+            <a routerLink="/admin/wallets" routerLinkActive="active" class="nav-link">
+                <i class="fas fa-users"></i> Gestion Wallets
+            </a>
+        }
+    </nav>
+    <div class="sidebar-footer">
+        <a class="nav-link logout-link" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </a>
+    </div>
+</aside>

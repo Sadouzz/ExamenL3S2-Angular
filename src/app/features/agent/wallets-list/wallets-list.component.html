@@ -1,0 +1,61 @@
+<div class="card animate-fade-in">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-users text-primary"></i> Gestion des Portefeuilles</h2>
+        
+        <div class="d-flex gap-2">
+          <input type="text" class="form-control" placeholder="Rechercher par téléphone..." 
+            style="width: 250px; padding: 0.5rem 1rem;" [(ngModel)]="searchPhone" (keyup.enter)="searchWallet()">
+          <button class="btn btn-outline" (click)="searchWallet()">
+            <i class="fas fa-search m-0"></i>
+          </button>
+          <button class="btn btn-primary" (click)="showCreateModal = true">
+            <i class="fas fa-plus"></i> Nouveau
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Téléphone</th>
+              <th>Solde Actuel</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (wallet of wallets; track wallet.id) {
+              <tr>
+                <td><strong>{{ wallet.email }}</strong></td>
+                <td>{{ wallet.phoneNumber }}</td>
+                <td class="text-primary font-bold">{{ wallet.currentBalance | xof }}</td>
+                <td>
+                  <button class="btn btn-outline btn-sm" (click)="selectedWallet = wallet">
+                    Opérations
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">
+                  Aucun portefeuille trouvé.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <span class="text-muted">Page {{ currentPage + 1 }} sur {{ totalPages || 1 }}</span>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline" [disabled]="currentPage === 0" (click)="loadPage(currentPage - 1)">Précédent</button>
+          <button class="btn btn-outline" [disabled]="currentPage >= totalPages - 1" (click)="loadPage(currentPage + 1)">Suivant</button>
+        </div>
+      </div>
+    </div>
+    
+    <app-wallet-create *ngIf="showCreateModal" (close)="showCreateModal = false" (created)="loadPage(0)"></app-wallet-create>
+    <app-wallet-operations *ngIf="selectedWallet" [wallet]="selectedWallet" (close)="selectedWallet = null" (done)="refreshCurrentPage()"></app-wallet-operations>

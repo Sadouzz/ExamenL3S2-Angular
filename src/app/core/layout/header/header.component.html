@@ -1,0 +1,23 @@
+<header class="header">
+      <div class="header-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Rechercher..." class="search-input">
+      </div>
+      
+      <div class="header-actions">
+        <div class="balance-badge">
+          <span class="balance-label">Solde Actuel</span>
+          <span class="balance-amount">{{ balanceStore.balance() | xof }}</span>
+        </div>
+        
+        <div class="user-profile">
+          <div class="avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name">Client {{ balanceStore.currentPhone() }}</span>
+            <span class="user-role">Self-Service</span>
+          </div>
+        </div>
+      </div>
+    </header>
