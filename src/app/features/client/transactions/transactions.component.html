@@ -1,0 +1,54 @@
+<div class="card animate-fade-in">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Historique des Transactions</h2>
+        <div class="filters" style="display: flex; gap: 10px;">
+          <input type="date" class="form-control" [(ngModel)]="filterDate" (change)="applyFilters()" />
+          <select class="form-control" [(ngModel)]="filterType" (change)="applyFilters()">
+            <option value="ALL">Toutes les transactions</option>
+            <option value="DEPOSIT">Dépôts</option>
+            <option value="WITHDRAWAL">Retraits</option>
+            <option value="TRANSFER">Transferts</option>
+            <option value="PAYMENT">Paiements</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Montant</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (tx of filteredTransactions; track tx.id) {
+              <tr>
+                <td>{{ tx.date | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                    'badge-success': tx.type === 'DEPOSIT',
+                    'badge-danger': tx.type === 'WITHDRAWAL' || tx.type === 'PAYMENT',
+                    'badge-warning': tx.type === 'TRANSFER'
+                  }">
+                    {{ tx.type }}
+                  </span>
+                </td>
+                <td>{{ tx.description || '-' }}</td>
+                <td [ngClass]="{'text-success': tx.type === 'DEPOSIT', 'text-danger': tx.type !== 'DEPOSIT'}">
+                  {{ tx.type === 'DEPOSIT' ? '+' : '-' }} {{ tx.amount | xof }}
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">
+                  Aucune transaction trouvée.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>

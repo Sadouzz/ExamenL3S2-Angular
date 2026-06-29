@@ -12,6 +12,8 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
       let errorMsg = '';
       if (error.error instanceof ErrorEvent) {
         errorMsg = `Erreur: ${error.error.message}`;
+      } else if (typeof error.error === 'string') {
+        errorMsg = error.error;
       } else {
         errorMsg = error.error?.message || `Erreur: ${error.status} - ${error.statusText}`;
       }

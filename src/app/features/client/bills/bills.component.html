@@ -1,0 +1,75 @@
+    <div class="card animate-fade-in">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2>Mes Factures Impayées</h2>
+          <p class="text-muted mb-0">Sélectionnez les factures que vous souhaitez régler.</p>
+        </div>
+        
+        <div class="filters">
+          <select class="form-control" [(ngModel)]="filterProvider" (change)="applyFilters()">
+            <option value="ALL">Tous les fournisseurs</option>
+            @for (provider of providers; track provider) {
+              <option [value]="provider">{{ provider }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50px;">
+                <input type="checkbox" 
+                  [checked]="isAllSelected()" 
+                  (change)="toggleAll($event)"
+                  [disabled]="filteredBills.length === 0">
+              </th>
+              <th>Fournisseur</th>
+              <th>Référence</th>
+              <th>Échéance</th>
+              <th>Montant</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (bill of filteredBills; track bill.id) {
+              <tr [ngClass]="{'selected': isSelected(bill.id)}">
+                <td>
+                  <input type="checkbox" 
+                    [checked]="isSelected(bill.id)" 
+                    (change)="toggleSelection(bill.id)">
+                </td>
+                <td>
+                  <strong>{{ bill.provider }}</strong>
+                </td>
+                <td>{{ bill.reference }}</td>
+                <td>
+                  <span [ngClass]="{'text-danger': isOverdue(bill.dueDate)}">
+                    {{ bill.dueDate | date:'dd/MM/yyyy' }}
+                  </span>
+                </td>
+                <td class="font-bold">{{ bill.amount | xof }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="text-center py-4 text-muted">
+                  Aucune facture impayée trouvée.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (selectedBills.length > 0) {
+        <div class="payment-summary mt-4 animate-fade-in">
+          <div class="summary-details">
+            <span class="text-muted">{{ selectedBills.length }} facture(s) sélectionnée(s)</span>
+            <h3>Total: <span class="text-primary">{{ getTotalAmount() | xof }}</span></h3>
+          </div>
+          <button class="btn btn-primary" (click)="paySelectedBills()" [disabled]="loader.isLoading()">
+            <i class="fas fa-check"></i> Payer maintenant
+          </button>
+        </div>
+      }
+    </div>

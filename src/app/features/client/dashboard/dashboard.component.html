@@ -1,0 +1,48 @@
+    <div class="dashboard-header mb-4 animate-fade-in">
+      <h1>Bonjour, Client {{ balanceStore.currentPhone() }}</h1>
+      <p class="text-muted">Voici le résumé de votre compte aujourd'hui.</p>
+    </div>
+
+    <div class="stats-grid animate-fade-in">
+      <div class="card stat-card main-balance">
+        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Solde Actuel</span>
+          <span class="stat-value">{{ balanceStore.balance() | xof }}</span>
+        </div>
+      </div>
+      
+      <div class="card stat-card income">
+        <div class="stat-icon"><i class="fas fa-arrow-down"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Revenus (Ce mois)</span>
+          <span class="stat-value text-success">+ {{ monthlyRevenue | xof }}</span>
+        </div>
+      </div>
+
+      <div class="card stat-card expense">
+        <div class="stat-icon"><i class="fas fa-arrow-up"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Dépenses (Ce mois)</span>
+          <span class="stat-value text-danger">- {{ monthlyExpense | xof }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions mt-4 animate-fade-in" style="animation-delay: 100ms;">
+      <h3>Actions Rapides</h3>
+      <div class="actions-grid">
+        <a routerLink="/transfer" class="card action-card">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Transférer de l'argent</span>
+        </a>
+        <a routerLink="/bills" class="card action-card">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <span>Payer une facture</span>
+        </a>
+        <a routerLink="/transactions" class="card action-card">
+          <i class="fas fa-history"></i>
+          <span>Historique</span>
+        </a>
+      </div>
+    </div>

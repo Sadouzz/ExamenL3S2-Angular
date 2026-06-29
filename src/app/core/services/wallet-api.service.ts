@@ -62,11 +62,12 @@ export class WalletApiService {
   }
 
   transfer(senderPhone: string, payload: TransferDto): Observable<void> {
-    // We append the sender in the path if we follow a typical REST standard, or as body.
-    // The prompt says: POST /api/wallets/transfer
-    // So maybe it's just POST /api/wallets/transfer with { sender: ..., destination: ..., amount: ... }
-    // We'll adapt based on typical setup.
-    return this.http.post<void>(`${this.BASE}/transfer`, { sender: senderPhone, ...payload });
+    const backendPayload = {
+      senderPhone: senderPhone,
+      receiverPhone: payload.destination,
+      amount: payload.amount
+    };
+    return this.http.post<void>(`${this.BASE}/transfer`, backendPayload);
   }
 
   getTransactions(phone: string): Observable<Transaction[]> {

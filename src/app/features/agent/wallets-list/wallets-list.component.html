@@ -1,6 +1,6 @@
 <div class="card animate-fade-in">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="fas fa-users text-primary"></i> Gestion des Portefeuilles</h2>
+        <h2>Gestion des Portefeuilles</h2>
         
         <div class="d-flex gap-2">
           <input type="text" class="form-control" placeholder="Rechercher par téléphone..." 
@@ -18,6 +18,7 @@
         <table>
           <thead>
             <tr>
+              <th>ID</th>
               <th>Client</th>
               <th>Téléphone</th>
               <th>Solde Actuel</th>
@@ -27,18 +28,19 @@
           <tbody>
             @for (wallet of wallets; track wallet.id) {
               <tr>
+                <td>{{ wallet.id }}</td>
                 <td><strong>{{ wallet.email }}</strong></td>
                 <td>{{ wallet.phoneNumber }}</td>
                 <td class="text-primary font-bold">{{ wallet.currentBalance | xof }}</td>
                 <td>
                   <button class="btn btn-outline btn-sm" (click)="selectedWallet = wallet">
-                    Opérations
+                    Actions
                   </button>
                 </td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="4" class="text-center py-4 text-muted">
+                <td colspan="5" class="text-center py-4 text-muted">
                   Aucun portefeuille trouvé.
                 </td>
               </tr>

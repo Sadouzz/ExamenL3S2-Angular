@@ -5,7 +5,7 @@ export function phoneValidator(): ValidatorFn {
     if (!control.value) {
       return null;
     }
-    const validRegex = /^(77|78|76|75|70)\d{7}$/;
+    const validRegex = /^(\+221|221)?(77|78|76|75|70|71)\d{7}$/;
     const valid = validRegex.test(control.value);
     return valid ? null : { invalidPhone: true };
   };

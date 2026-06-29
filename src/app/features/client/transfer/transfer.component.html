@@ -1,0 +1,43 @@
+<div class="card max-w-md mx-auto animate-fade-in">
+      <h2>Envoyer de l'argent</h2>
+      <p class="text-muted mb-4">Solde disponible: <strong class="text-primary">{{ balanceStore.balance() | xof }}</strong></p>
+
+      <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label class="form-label">Numéro du destinataire</label>
+          <input type="text" class="form-control" formControlName="destination" placeholder="Ex: 771234567"
+            [ngClass]="{'is-invalid': transferForm.get('destination')?.invalid && transferForm.get('destination')?.touched}">
+          @if (transferForm.get('destination')?.invalid && transferForm.get('destination')?.touched) {
+            <div class="form-error">
+              @if (transferForm.get('destination')?.hasError('required')) { Numéro requis. }
+              @if (transferForm.get('destination')?.hasError('invalidPhone')) { Format invalide (ex: 77XXXXXXX). }
+            </div>
+          }
+          @if (transferForm.hasError('samePhone')) {
+            <div class="form-error">Vous ne pouvez pas envoyer d'argent à vous-même.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Montant (XOF)</label>
+          <input type="number" class="form-control" formControlName="amount" placeholder="0"
+            [ngClass]="{'is-invalid': transferForm.get('amount')?.invalid && transferForm.get('amount')?.touched}">
+          @if (transferForm.get('amount')?.invalid && transferForm.get('amount')?.touched) {
+            <div class="form-error">
+              @if (transferForm.get('amount')?.hasError('required')) { Montant requis. }
+              @if (transferForm.get('amount')?.hasError('min')) { Le montant doit être supérieur à 0. }
+              @if (transferForm.get('amount')?.hasError('insufficient')) { Solde insuffisant. }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description (Optionnel)</label>
+          <input type="text" class="form-control" formControlName="description" placeholder="Motif...">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="transferForm.invalid || loader.isLoading()">
+          <i class="fas fa-paper-plane"></i> Envoyer
+        </button>
+      </form>
+    </div>
