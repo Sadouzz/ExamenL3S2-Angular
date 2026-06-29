@@ -56,7 +56,7 @@ export class TransactionsComponent implements OnInit {
     if (this.filterDate) {
       const selectedDate = new Date(this.filterDate).toISOString().split('T')[0];
       filtered = filtered.filter(t => {
-        const txDate = new Date(t.date).toISOString().split('T')[0];
+        const txDate = new Date(t.eventDate).toISOString().split('T')[0];
         return txDate === selectedDate;
       });
     }

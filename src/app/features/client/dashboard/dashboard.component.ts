@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
           const currentYear = now.getFullYear();
           
           transactions.forEach(tx => {
-            const txDate = new Date(tx.date);
+            const txDate = new Date(tx.eventDate);
             if (txDate.getMonth() === currentMonth && txDate.getFullYear() === currentYear) {
               if (tx.type === 'DEPOSIT') {
                 this.monthlyRevenue += tx.amount;

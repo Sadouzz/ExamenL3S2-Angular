@@ -26,7 +26,7 @@
           <tbody>
             @for (tx of filteredTransactions; track tx.id) {
               <tr>
-                <td>{{ tx.date | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ tx.eventDate | date:'dd/MM/yyyy HH:mm' }}</td>
                 <td>
                   <span class="badge" [ngClass]="{
                     'badge-success': tx.type === 'DEPOSIT',

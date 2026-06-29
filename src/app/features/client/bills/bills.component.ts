@@ -103,7 +103,11 @@ export class BillsComponent implements OnInit {
     const phone = this.balanceStore.currentPhone()!;
     this.loader.show();
     
-    this.api.payBills(phone, this.selectedBills)
+    const references = this.bills
+      .filter(b => this.selectedBills.includes(b.id))
+      .map(b => b.reference);
+
+    this.api.payBills(phone, references)
       .pipe(finalize(() => this.loader.hide()))
       .subscribe({
         next: () => {

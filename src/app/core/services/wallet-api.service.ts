@@ -21,7 +21,7 @@ export interface Transaction {
   id: number;
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER' | 'PAYMENT';
   amount: number;
-  date: string;
+  eventDate: string;
   description?: string;
 }
 

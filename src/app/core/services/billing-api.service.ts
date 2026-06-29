@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 export interface Bill {
   id: number;
   provider: string; // WOYAFAL, ISM, SENELEC...
@@ -18,14 +18,32 @@ export class BillingApiService {
   private http = inject(HttpClient);
 
   getUnpaidBills(phone: string): Observable<Bill[]> {
-    return this.http.get<Bill[]>(`${this.BASE}/unpaid/${phone}`);
+    return this.http.get<any[]>(`${this.BASE}/${phone}/current`).pipe(
+      map(data => data.map((item, index) => ({
+        id: index, // backend doesn't return id
+        provider: item.serviceName,
+        amount: item.amount,
+        dueDate: item.dueDate,
+        isPaid: false,
+        reference: item.reference
+      })))
+    );
   }
 
-  getHistory(phone: string): Observable<Bill[]> {
-    return this.http.get<Bill[]>(`${this.BASE}/history/${phone}`);
+  getHistory(phone: string, debut: string, fin: string): Observable<Bill[]> {
+    return this.http.get<any[]>(`${this.BASE}/${phone}/periode?debut=${debut}&fin=${fin}`).pipe(
+      map(data => data.map((item, index) => ({
+        id: index,
+        provider: item.serviceName,
+        amount: item.amount,
+        dueDate: item.dueDate,
+        isPaid: true,
+        reference: item.reference
+      })))
+    );
   }
 
-  payBills(phone: string, billIds: number[]): Observable<void> {
-    return this.http.post<void>(`${this.WALLET_BASE}/pay-factures`, { phone, billIds });
+  payBills(phone: string, billIds: string[]): Observable<void> {
+    return this.http.post<void>(`${this.WALLET_BASE}/pay-factures`, { phoneNumber: phone, factureReferences: billIds });
   }
 }
